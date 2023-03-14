@@ -17,10 +17,12 @@ const server = http.createServer(async (req, res)=> {
 
     // verificar se a operação que está sendo feita é igual a aulguma das rotas do array de rotas (routes):
     const route = routes.find(route => {
-        return route.method == method && route.url == url
+        return route.method == method && route.path == url
     })
 
-    console.log(route)
+    if (route) { // caso tenha encontrado alguma rota
+        return route.handler(req, res) // vai retornar a função que é executada ao se chamar aquela rota
+    }
 
     return res.writeHead(404).end()
 })
